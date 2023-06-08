@@ -24,8 +24,13 @@ time_ordering = int(sys.argv[2])
 
 #read data from csv and sort it by date of birth accordingly to the second command line argument
 df = pd.read_csv(file_data)
-df['Date of birth'] = pd.to_datetime(df['Date of birth'], format='mixed')
-df.sort_values('Date of birth', inplace=True, ascending=True if time_ordering== 0 else False)
+try:
+    df['Date of birth'] = pd.to_datetime(df['Date of birth'], format='mixed')
+    df.sort_values('Date of birth', inplace=True, ascending=True if time_ordering== 0 else False)
+except ValueError:
+    print("You are trying to read a not valid time format, please check your csv file!")
+    exit(-1)
+
 #Print the sorted CSV file
 print("\nSorted CSV file = \n", df)
 
